@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Signalement extends Model
 {
+    protected $fillable = ['user_id', 'reseau_id', 'type', 'description', 'statut'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

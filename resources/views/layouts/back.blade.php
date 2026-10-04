@@ -7,66 +7,91 @@
 
     <title>@yield('title', config('app.name', 'AquaSecure')) &middot; Administration</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/aquasecure_icon.svg') }}">
 
-    <!-- Scripts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100">
-    <div class="flex min-h-screen">
-        <aside class="w-64 bg-gray-900 text-gray-100 flex flex-col">
-            <div class="h-16 flex items-center px-6 text-lg font-bold border-b border-gray-800">
-                AquaSecure Admin
+<body class="font-sans antialiased bg-bg text-ink" x-data="{ sidebarOpen: false }">
+    <x-flash-message />
+
+    @php
+        $navLinks = [
+            ['route' => 'admin.dashboard', 'pattern' => 'admin.dashboard', 'label' => 'Tableau de bord', 'icon' => 'home'],
+            ['route' => 'admin.zones.index', 'pattern' => 'admin.zones.*', 'label' => 'Zones', 'icon' => 'map'],
+            ['route' => 'admin.reseaux.index', 'pattern' => 'admin.reseaux.*', 'label' => 'Réseaux', 'icon' => 'share'],
+            ['route' => 'admin.incidents.index', 'pattern' => 'admin.incidents.*', 'label' => 'Incidents', 'icon' => 'alert-triangle'],
+            ['route' => 'admin.interventions.index', 'pattern' => 'admin.interventions.*', 'label' => 'Interventions', 'icon' => 'wrench'],
+            ['route' => 'admin.capteurs.index', 'pattern' => 'admin.capteurs.*', 'label' => 'Capteurs', 'icon' => 'radar'],
+            ['route' => 'admin.releves.index', 'pattern' => 'admin.releves.*', 'label' => 'Relevés', 'icon' => 'chart'],
+            ['route' => 'admin.projets.index', 'pattern' => 'admin.projets.*', 'label' => 'Projets de rénovation', 'icon' => 'building'],
+            ['route' => 'admin.financements.index', 'pattern' => 'admin.financements.*', 'label' => 'Financements', 'icon' => 'coin'],
+            ['route' => 'admin.signalements.index', 'pattern' => 'admin.signalements.*', 'label' => 'Signalements', 'icon' => 'megaphone'],
+            ['route' => 'admin.commentaires.index', 'pattern' => 'admin.commentaires.*', 'label' => 'Commentaires', 'icon' => 'chat'],
+            ['route' => 'admin.users.index', 'pattern' => 'admin.users.*', 'label' => 'Utilisateurs', 'icon' => 'users', 'adminOnly' => true],
+        ];
+    @endphp
+
+    <!-- Desktop sidebar -->
+    <aside class="hidden md:flex fixed inset-y-0 left-0 w-60 bg-ink flex-col z-30">
+        @include('partials.sidebar-nav', ['navLinks' => $navLinks])
+    </aside>
+
+    <!-- Mobile sidebar (slide-over) -->
+    <div x-show="sidebarOpen" style="display: none;" class="fixed inset-0 z-40 md:hidden">
+        <div class="fixed inset-0 bg-ink/50" x-on:click="sidebarOpen = false" x-show="sidebarOpen"
+             x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+
+        <aside x-show="sidebarOpen"
+               x-transition:enter="transition ease-out duration-200" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+               x-transition:leave="transition ease-in duration-150" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
+               class="relative flex flex-col w-64 h-full bg-ink">
+            @include('partials.sidebar-nav', ['navLinks' => $navLinks])
+        </aside>
+    </div>
+
+    <div class="md:pl-60">
+        <header class="sticky top-0 z-10 h-16 bg-white border-b border-border flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center gap-3">
+                <button type="button" id="sidebar-toggle" x-on:click="sidebarOpen = true" class="md:hidden text-ink -ml-1 p-1.5">
+                    <x-icon.menu />
+                </button>
+
+                <nav class="flex items-center gap-1.5 text-sm">
+                    <span class="text-muted">Administration</span>
+                    <span class="text-muted">/</span>
+                    <span class="font-medium text-ink">@yield('title', 'Tableau de bord')</span>
+                </nav>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-1">
-                <a href="{{ route('admin.dashboard') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Dashboard
-                </a>
-                <a href="{{ route('admin.reseaux.index') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.reseaux.*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Réseaux
-                </a>
-                <a href="{{ route('admin.incidents.index') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.incidents.*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Incidents
-                </a>
-                <a href="{{ route('admin.projets.index') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.projets.*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Projets
-                </a>
-                <a href="{{ route('admin.capteurs.index') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.capteurs.*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Capteurs
-                </a>
-                <a href="{{ route('admin.signalements.index') }}"
-                   class="block px-4 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.signalements.*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    Signalements
-                </a>
-            </nav>
-
-            <div class="px-4 py-4 border-t border-gray-800">
+            <div class="flex items-center gap-3">
+                @php
+                    $roleStyles = [
+                        'admin' => 'bg-primary/12 text-primary-strong',
+                        'gestionnaire' => 'bg-warning/12 text-warning-strong',
+                        'citoyen' => 'bg-success/12 text-success-strong',
+                    ];
+                @endphp
+                <span class="hidden sm:block text-sm text-ink/80">{{ auth()->user()->name }}</span>
+                <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $roleStyles[auth()->user()->role] ?? 'bg-ink/8 text-muted' }}">
+                    {{ ucfirst(auth()->user()->role) }}
+                </span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left text-sm text-gray-300 hover:text-white">
-                        Déconnexion
+                    <button type="submit" class="text-muted hover:text-ink p-1.5" title="Déconnexion">
+                        <x-icon.logout class="w-5 h-5" />
                     </button>
                 </form>
             </div>
-        </aside>
+        </header>
 
-        <div class="flex-1 flex flex-col">
-            <header class="h-16 bg-white border-b border-gray-200 flex items-center px-6">
-                <h1 class="text-lg font-semibold text-gray-800">@yield('title', 'Administration')</h1>
-            </header>
-
-            <main class="flex-1 p-6">
-                @yield('content')
-            </main>
-        </div>
+        <main class="p-4 sm:p-6">
+            @yield('content')
+        </main>
     </div>
 </body>
 </html>

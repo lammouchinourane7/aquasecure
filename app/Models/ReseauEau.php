@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ReseauEau extends Model
 {
+    protected $fillable = ['zone_id', 'type', 'etat'];
+
     public function zone(): BelongsTo
     {
         return $this->belongsTo(Zone::class);
