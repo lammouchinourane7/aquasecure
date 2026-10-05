@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-ink: #0B1220;
+    --color-primary: #2F6FED;
+    --color-primary-light: #6C9BFF;
+    --color-bg: #F5F7FA;
+    --color-surface: #FFFFFF;
+    --color-border: #E4E8EE;
+    --color-muted: #5B6472;
+    --color-alert: #E2483D;
+    --color-warning: #E8A23D;
+    --color-success: #1FAE7A;
+
+    /* Darker variants used wherever brand color is TEXT (badges, links, buttons) —
+       the literal brand tones don't clear WCAG AA (4.5:1) against white/pastel
+       tints, these do (verified against both plain white and their own 12%-tint). */
+    --color-primary-strong: #2A63D5;
+    --color-alert-strong: #B43930;
+    --color-warning-strong: #8B6124;
+    --color-success-strong: #157955;
+
+    /* RGB channel triplets so Tailwind's color-opacity modifiers (e.g. bg-alert/12)
+       compose rgb(var(...) / <alpha>) instead of silently dropping the modifier. */
+    --color-ink-rgb: 11 18 32;
+    --color-primary-rgb: 47 111 237;
+    --color-primary-light-rgb: 108 155 255;
+    --color-primary-strong-rgb: 42 99 213;
+    --color-bg-rgb: 245 247 250;
+    --color-surface-rgb: 255 255 255;
+    --color-border-rgb: 228 232 238;
+    --color-muted-rgb: 91 100 114;
+    --color-alert-rgb: 226 72 61;
+    --color-alert-strong-rgb: 180 57 48;
+    --color-warning-rgb: 232 162 61;
+    --color-warning-strong-rgb: 139 97 36;
+    --color-success-rgb: 31 174 122;
+    --color-success-strong-rgb: 21 121 85;
+}
+
+@layer base {
+    h1, h2, h3, .font-display {
+        font-family: 'Space Grotesk', ui-sans-serif, sans-serif;
+    }
+}
+
+@layer utilities {
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 999px;
+    }
+}
