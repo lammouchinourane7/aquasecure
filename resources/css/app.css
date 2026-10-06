@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Palette AquaSecure — inspirée des plans de réseaux d'eau :
+ * bleu « conduite » pour la structure, bleu pétrole pour l'eau,
+ * rouille / ocre / vert pour l'état des ouvrages.
+ */
+:root {
+    --color-ink: #1A2B36;
+    --color-conduite: #17344A;
+    --color-primary: #1D6F8F;
+    --color-primary-light: #9FD0E2;
+    --color-primary-strong: #175A75;
+    --color-bg: #ECF0F1;
+    --color-surface: #FFFFFF;
+    --color-border: #D3DCE0;
+    --color-muted: #5A6B75;
+    --color-alert: #B4462C;
+    --color-alert-strong: #933920;
+    --color-warning: #C2860F;
+    --color-warning-strong: #85590A;
+    --color-success: #2C7A57;
+    --color-success-strong: #216246;
+
+    /* Triplets RGB pour les modificateurs d'opacité Tailwind (bg-alert/12...) */
+    --color-ink-rgb: 26 43 54;
+    --color-conduite-rgb: 23 52 74;
+    --color-primary-rgb: 29 111 143;
+    --color-primary-light-rgb: 159 208 226;
+    --color-primary-strong-rgb: 23 90 117;
+    --color-bg-rgb: 236 240 241;
+    --color-surface-rgb: 255 255 255;
+    --color-border-rgb: 211 220 224;
+    --color-muted-rgb: 90 107 117;
+    --color-alert-rgb: 180 70 44;
+    --color-alert-strong-rgb: 147 57 32;
+    --color-warning-rgb: 194 134 15;
+    --color-warning-strong-rgb: 133 89 10;
+    --color-success-rgb: 44 122 87;
+    --color-success-strong-rgb: 33 98 70;
+}
+
+@layer base {
+    body {
+        font-size: 15px;
+        line-height: 1.55;
+    }
+
+    h1, h2, h3, .font-display {
+        font-family: 'Barlow Semi Condensed', 'Barlow', ui-sans-serif, sans-serif;
+        letter-spacing: 0.005em;
+    }
+
+    /* Les chiffres s'alignent dans les tableaux et les indicateurs */
+    table, .font-display {
+        font-variant-numeric: tabular-nums;
+    }
+
+    thead th {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    :focus-visible {
+        outline: 2px solid rgb(var(--color-primary-rgb));
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer utilities {
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 999px;
+    }
+}

@@ -1,0 +1,9 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="116" height="116" rx="14" fill="#17344A"/>
+  <!-- conduite horizontale -->
+  <path d="M12 74 H108" stroke="#1D6F8F" stroke-width="10" stroke-linecap="butt"/>
+  <!-- goutte -->
+  <path d="M60 20 C72 38 86 54 86 72 C86 88 74 100 60 100 C46 100 34 88 34 72 C34 54 48 38 60 20 Z" fill="#FFFFFF"/>
+  <!-- niveau d'eau dans la goutte -->
+  <path d="M38 76 Q49 70 60 76 T82 76 V80 C80 92 71 98 60 98 C49 98 40 92 38 80 Z" fill="#1D6F8F"/>
+</svg>
